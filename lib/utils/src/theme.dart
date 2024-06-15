@@ -20,13 +20,46 @@ class ThemeManager {
           displayColor: Colors.black,
         )
         .copyWith(
-          bodyText2: TextStyle(
+          bodyMedium: TextStyle(
             color: Colors.grey.shade800, // Darker text for body text
           ),
-          bodyText1: TextStyle(
+          bodyLarge: TextStyle(
             color: Colors.grey.shade800, // Darker text for body text
           ),
         ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.grey.shade300; // Custom pressed color
+            } else if (states.contains(MaterialState.hovered)) {
+              return Colors.grey.shade300; // Custom hover color
+            } else if (states.contains(MaterialState.disabled)) {
+              return Colors.grey.shade100; // Custom disabled color
+            }
+            return Colors.white; // Default color
+          },
+        ),
+        foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.grey.shade800), // Text color
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.hovered)) {
+              return Colors.white
+                  .withOpacity(0.2); // Custom hover overlay color
+            } else if (states.contains(MaterialState.pressed)) {
+              return Colors.white
+                  .withOpacity(0.2); // Custom pressed overlay color
+            } else if (states.contains(MaterialState.disabled)) {
+              return Colors.grey.shade100
+                  .withOpacity(0.2); // Custom disabled overlay color
+            }
+            return null; // Default overlay color
+          },
+        ),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor:
@@ -90,6 +123,39 @@ class ThemeManager {
             color: Colors.grey.shade300, // Lighter text for body text
           ),
         ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Colors.grey.shade700; // Custom pressed color
+            } else if (states.contains(MaterialState.hovered)) {
+              return Colors.grey.shade700; // Custom hover color
+            } else if (states.contains(MaterialState.disabled)) {
+              return Colors.grey.shade100; // Custom disabled color
+            }
+            return Colors.grey.shade800; // Default color
+          },
+        ),
+        foregroundColor: MaterialStateProperty.all<Color>(
+            Colors.grey.shade200), // Text color
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.contains(MaterialState.hovered)) {
+              return Colors.grey.shade300
+                  .withOpacity(0.2); // Custom hover overlay color
+            } else if (states.contains(MaterialState.pressed)) {
+              return Colors.grey.shade300
+                  .withOpacity(0.2); // Custom pressed overlay color
+            } else if (states.contains(MaterialState.disabled)) {
+              return Colors.grey.shade100
+                  .withOpacity(0.2); // Custom disabled overlay color
+            }
+            return null; // Default overlay color
+          },
+        ),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor:
