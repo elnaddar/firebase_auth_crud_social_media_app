@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
                     letterSpacing: 6,
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 32),
                 const LoginForm()
               ],
             ),
