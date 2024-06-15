@@ -1,19 +1,24 @@
-import 'package:firebase_auth_crud_social_media_app/utils/routes.dart';
+import 'package:firebase_auth_crud_social_media_app/utils/utils_manager.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final UtilsManager utils = UtilsManager();
+
+  MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: "/login",
-      routes: routes,
+      initialRoute: utils.routesManager.initialRoute,
+      routes: utils.routesManager.routes,
+      theme: utils.themeManager.lightMode,
+      darkTheme: utils.themeManager.darkMode,
+      themeMode: ThemeMode.system,
     );
   }
 }
