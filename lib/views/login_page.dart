@@ -10,27 +10,26 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Padding(
+          child: ListView(
+            shrinkWrap: true,
             padding: const EdgeInsets.all(25),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person,
-                  size: 80,
-                  color: theme.colorScheme.inversePrimary,
+            children: [
+              Icon(
+                Icons.person,
+                size: 80,
+                color: theme.colorScheme.inversePrimary,
+              ),
+              const Text.rich(
+                TextSpan(text: "SOCIAL"),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  letterSpacing: 6,
                 ),
-                const Text(
-                  "SOCIAL",
-                  style: TextStyle(
-                    fontSize: 20,
-                    letterSpacing: 6,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                const LoginForm()
-              ],
-            ),
+              ),
+              const SizedBox(height: 32),
+              const LoginForm()
+            ],
           ),
         ),
       ),
