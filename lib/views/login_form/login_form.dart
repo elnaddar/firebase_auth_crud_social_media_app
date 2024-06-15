@@ -25,6 +25,8 @@ class _LoginFormState extends State<LoginForm> {
               inputName: LoginFormEnum.email,
               formMap: formMap,
               hintText: "Email",
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 10),
             InputFormField(
@@ -32,6 +34,8 @@ class _LoginFormState extends State<LoginForm> {
               formMap: formMap,
               hintText: "Password",
               obscureText: true,
+              textInputAction: TextInputAction.done,
+              keyboardType: TextInputType.visiblePassword,
             ),
             const SizedBox(height: 10),
             Align(
