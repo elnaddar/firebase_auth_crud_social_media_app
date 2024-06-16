@@ -1,7 +1,6 @@
 import 'package:firebase_auth_crud_social_media_app/components/form_button.dart';
 import 'package:firebase_auth_crud_social_media_app/components/input_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:form_map/form_map.dart';
 
 enum LoginFormEnum { email, password }
@@ -65,7 +64,8 @@ class _LoginFormState extends State<LoginForm> {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context)
+                          .pushReplacementNamed("/register"),
                       child: const Text("Register Here"),
                     ),
                   ),

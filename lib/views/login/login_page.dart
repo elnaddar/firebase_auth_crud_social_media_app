@@ -1,4 +1,4 @@
-import 'package:firebase_auth_crud_social_media_app/views/login_form/login_form.dart';
+import 'package:firebase_auth_crud_social_media_app/views/login/login_form/login_form.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
