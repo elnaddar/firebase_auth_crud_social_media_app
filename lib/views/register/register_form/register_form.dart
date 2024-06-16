@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_crud_social_media_app/components/form_button.dart';
 import 'package:firebase_auth_crud_social_media_app/components/input_form_field.dart';
+import 'package:firebase_auth_crud_social_media_app/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_map/form_map.dart';
 
 enum RegisterFormEnum { username, email, password, confirmPassword }
@@ -141,6 +144,35 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _submitRegister() {
-    formMap.submit((data) {}, saveBeforeValidate: true);
+    formMap.submit((data) {
+      showAdaptiveDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+      );
+      final auth = context.read<FirebaseAuthService>();
+      auth
+          .createUserWithEmailAndPassword(
+        email: data['email'],
+        password: data['password'],
+      )
+          .then((value) {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }).onError((FirebaseAuthException error, stackTrace) {
+        if (mounted) {
+          Navigator.pop(context);
+          showAdaptiveDialog(
+            context: context,
+            builder: (context) => AlertDialog.adaptive(
+              title: const Text("Error"),
+              content: Text(error.code),
+            ),
+          );
+        }
+      });
+    }, saveBeforeValidate: true);
   }
 }
