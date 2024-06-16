@@ -148,10 +148,10 @@ packages:
     dependency: "direct main"
     description:
       name: form_map
-      sha256: aa9dadb9501c6fd7d1a210973c903d2f5935527a71b6f2b540672fe4e10428c4
+      sha256: "636727d64882f65a4752b6346d32c959b922ca154f6a94dbe1d7ec3d942a5b98"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.3"
+    version: "0.1.0"
   http_parser:
     dependency: transitive
     description:
