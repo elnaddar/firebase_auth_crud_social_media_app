@@ -58,9 +58,9 @@ class RouterDelegateImpl extends RouterDelegate<Object>
     return Navigator(
       key: navigatorKey,
       initialRoute: initialRoute,
-      pages: routes.keys
-          .map((key) => MaterialPage(child: routes[key]!(context)))
-          .toList(),
+      // pages: routes.keys
+      //     .map((key) => MaterialPage(child: routes[key]!(context)))
+      //     .toList(),
       onGenerateRoute: (settings) {
         final routeName = settings.name;
 
