@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_crud_social_media_app/components/form_button.dart';
 import 'package:firebase_auth_crud_social_media_app/components/input_form_field.dart';
+import 'package:firebase_auth_crud_social_media_app/helpers/form_validators.dart';
+import 'package:firebase_auth_crud_social_media_app/helpers/show_loading_indicator.dart';
+import 'package:firebase_auth_crud_social_media_app/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_map/form_map.dart';
 
 enum LoginFormEnum { email, password }
@@ -26,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
               hintText: "Email",
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
+              validator: emailValidator,
             ),
             const SizedBox(height: 10),
             InputFormField(
@@ -35,6 +41,7 @@ class _LoginFormState extends State<LoginForm> {
               obscureText: true,
               textInputAction: TextInputAction.done,
               keyboardType: TextInputType.visiblePassword,
+              validator: passwordValidator,
             ),
             const SizedBox(height: 10),
             Align(
@@ -51,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
             const SizedBox(height: 32),
             FormButton(
               text: "Login",
-              onTap: () {},
+              onTap: _submitLogin,
             ),
             const SizedBox(height: 10),
             Text.rich(
@@ -75,5 +82,33 @@ class _LoginFormState extends State<LoginForm> {
             )
           ],
         ));
+  }
+
+  void _submitLogin() {
+    formMap.submit((data) {
+      showLoadingIndicator(context);
+      final auth = context.read<FirebaseAuthService>();
+      auth
+          .signInWithEmailAndPassword(
+        email: data['email'],
+        password: data['password'],
+      )
+          .then((value) {
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      }).onError((FirebaseAuthException error, stackTrace) {
+        if (mounted) {
+          Navigator.pop(context);
+          showAdaptiveDialog(
+            context: context,
+            builder: (context) => AlertDialog.adaptive(
+              title: const Text("Error"),
+              content: Text(error.code),
+            ),
+          );
+        }
+      });
+    });
   }
 }
