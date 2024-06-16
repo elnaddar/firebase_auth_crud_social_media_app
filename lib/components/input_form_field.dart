@@ -12,6 +12,7 @@ class InputFormField<T extends Enum> extends StatelessWidget {
     this.handeler,
     this.keyboardType,
     this.textInputAction,
+    this.validator,
   }) {
     if (handeler != null) {
       formMap.handelers[inputName] = handeler!;
@@ -25,6 +26,7 @@ class InputFormField<T extends Enum> extends StatelessWidget {
   final dynamic Function(String value)? handeler;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final String? Function(String? value)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class InputFormField<T extends Enum> extends StatelessWidget {
         hintText: hintText,
         border: const OutlineInputBorder(),
       ),
+      validator: validator,
       onSaved: (newValue) => formMap[inputName] = newValue,
     );
   }
