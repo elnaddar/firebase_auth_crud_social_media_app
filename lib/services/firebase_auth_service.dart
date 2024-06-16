@@ -10,4 +10,6 @@ class FirebaseAuthService {
   Future<UserCredential> signInWithEmailAndPassword(
           {required String email, required String password}) =>
       _instance.signInWithEmailAndPassword(email: email, password: password);
+
+  Stream<User?> stateChanges() => _instance.authStateChanges();
 }
