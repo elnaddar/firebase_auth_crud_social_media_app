@@ -12,4 +12,6 @@ class FirebaseAuthService {
       _instance.signInWithEmailAndPassword(email: email, password: password);
 
   Stream<User?> stateChanges() => _instance.authStateChanges();
+  Future<void> signOut() => _instance.signOut();
+  User? get currentUser => _instance.currentUser;
 }
