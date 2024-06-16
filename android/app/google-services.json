@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076432994661",
+    "project_id": "social-auth-crud",
+    "storage_bucket": "social-auth-crud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076432994661:android:0807e34e5598dd89d0618c",
+        "android_client_info": {
+          "package_name": "com.example.firebase_auth_crud_social_media_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmo8dM7DA8s1OaD1jJf1jt6tAAumHW5lc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
