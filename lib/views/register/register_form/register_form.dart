@@ -29,9 +29,15 @@ class _RegisterFormState extends State<RegisterForm> {
             InputFormField(
               inputName: RegisterFormEnum.username,
               formMap: formMap,
-              hintText: "Username",
+              hintText: "Full Name",
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.name,
+              validator: (value) {
+                if (value == null || value.trim().length < 4) {
+                  return "Name field is required and cannot be less than 4 characters.";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 10),
             InputFormField(
