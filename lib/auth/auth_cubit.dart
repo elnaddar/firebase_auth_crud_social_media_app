@@ -1,4 +1,4 @@
-import 'package:firebase_auth_crud_social_media_app/services/firebase_auth_service.dart';
+import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthState {
@@ -8,7 +8,7 @@ class AuthState {
 }
 
 class AuthCubit extends Cubit<AuthState> {
-  final FirebaseAuthService _firebaseAuth;
+  final AuthService _firebaseAuth;
 
   AuthCubit(this._firebaseAuth)
       : super(AuthState(

@@ -1,6 +1,6 @@
 import 'package:firebase_auth_crud_social_media_app/auth/auth_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/firebase_options.dart';
-import 'package:firebase_auth_crud_social_media_app/services/firebase_auth_service.dart';
+import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
 import 'package:firebase_auth_crud_social_media_app/utils/utils_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(RepositoryProvider(
-    create: (context) => FirebaseAuthService(),
+    create: (context) => AuthService(),
     child: BlocProvider(
-      create: (context) => AuthCubit(context.read<FirebaseAuthService>()),
+      create: (context) => AuthCubit(context.read<AuthService>()),
       child: const MainApp(),
     ),
   ));
