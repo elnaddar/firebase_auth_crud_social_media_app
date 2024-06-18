@@ -6,6 +6,7 @@ import 'package:firebase_auth_crud_social_media_app/views/login/login_page.dart'
 import 'package:firebase_auth_crud_social_media_app/views/profile/profile_pages.dart';
 import 'package:firebase_auth_crud_social_media_app/views/register/register_page.dart';
 import 'package:firebase_auth_crud_social_media_app/views/users/users_page.dart';
+import 'package:firebase_auth_crud_social_media_app/views/verify_email/verify_email_page.dart';
 import 'package:go_router/go_router.dart';
 
 class RoutesManager {
@@ -17,12 +18,13 @@ class RoutesManager {
         initialLocation: authCubit.state.isAuthenticated ? '/' : '/login',
         redirect: (context, state) {
           final isAuthenticated = authCubit.state.isAuthenticated;
+          final isVerified = authCubit.state.isVerified;
           final isLoginOrRegister =
               state.uri.path == '/login' || state.uri.path == '/register';
 
           if (!isAuthenticated && !isLoginOrRegister) return '/401';
           if (isAuthenticated && isLoginOrRegister) return '/403';
-
+          if (isAuthenticated && !isVerified) return '/verify';
           return null;
         },
         routes: [
@@ -37,6 +39,10 @@ class RoutesManager {
           GoRoute(
             path: '/register',
             builder: (context, state) => const RegisterPage(),
+          ),
+          GoRoute(
+            path: '/verify',
+            builder: (context, state) => const VerifyEmailPage(),
           ),
           GoRoute(
             path: '/logout',
