@@ -1,8 +1,11 @@
 import 'package:firebase_auth_crud_social_media_app/auth/auth_cubit.dart';
+import 'package:firebase_auth_crud_social_media_app/auth/logout_widget.dart';
 import 'package:firebase_auth_crud_social_media_app/views/errors/page_4xx.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/home_page.dart';
 import 'package:firebase_auth_crud_social_media_app/views/login/login_page.dart';
+import 'package:firebase_auth_crud_social_media_app/views/profile/profile_pages.dart';
 import 'package:firebase_auth_crud_social_media_app/views/register/register_page.dart';
+import 'package:firebase_auth_crud_social_media_app/views/users/users_page.dart';
 import 'package:go_router/go_router.dart';
 
 class RoutesManager {
@@ -34,6 +37,18 @@ class RoutesManager {
           GoRoute(
             path: '/register',
             builder: (context, state) => const RegisterPage(),
+          ),
+          GoRoute(
+            path: '/logout',
+            builder: (context, state) => const LogoutWidget(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfilePage(),
+          ),
+          GoRoute(
+            path: '/users',
+            builder: (context, state) => const UsersPage(),
           ),
           GoRoute(
             path: '/401',
