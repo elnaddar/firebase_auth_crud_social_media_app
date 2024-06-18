@@ -27,6 +27,16 @@ class UsersRepository {
     });
   }
 
+  getCurrentUserData() {
+    return {
+      'uid': currentUser?.uid,
+      'name': currentUser?.displayName,
+      'email': currentUser?.email,
+      'photoURL': currentUser?.photoURL,
+      'phoneNumber': currentUser?.phoneNumber
+    };
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getUsersSnapshots() {
     return storeService.getCollection("Users").snapshots();
   }
