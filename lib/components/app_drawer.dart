@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
     super.key,
+    this.selectedIndex = 0,
   });
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDrawer(
-      children: [
+    return NavigationDrawer(
+      selectedIndex: selectedIndex,
+      onDestinationSelected: (index) => _onDestinationSelected(context, index),
+      children: const [
         DrawerHeader(
           margin: EdgeInsets.fromLTRB(26, 0, 26, 8),
           child: Icon(Icons.favorite),
@@ -39,5 +44,18 @@ class AppDrawer extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _onDestinationSelected(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        context.go("/");
+      case 1:
+        context.go("/profile");
+      case 2:
+        context.go("/users");
+      case 3:
+        context.go("/logout");
+    }
   }
 }
