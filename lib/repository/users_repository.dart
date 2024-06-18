@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
 import 'package:firebase_auth_crud_social_media_app/services/store_service.dart';
@@ -24,6 +25,10 @@ class UsersRepository {
       });
       return cred;
     });
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getUsersSnapshots() {
+    return storeService.getCollection("Users").snapshots();
   }
 
   Future<UserCredential> signInWithEmailAndPassword(
