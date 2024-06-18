@@ -65,10 +65,17 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   ),
                   if (kIsWeb || !Platform.isWindows)
                     ElevatedButton(
-                      onPressed: () => context
-                          .read<FirebaseAuthService>()
-                          .currentUser!
-                          .sendEmailVerification(),
+                      onPressed: () {
+                        context
+                            .read<FirebaseAuthService>()
+                            .currentUser!
+                            .sendEmailVerification();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Sent verification email"),
+                          ),
+                        );
+                      },
                       child: const Text("Send Verification Mail."),
                     )
                   else
