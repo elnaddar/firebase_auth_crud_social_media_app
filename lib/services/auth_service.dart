@@ -7,12 +7,8 @@ class AuthService {
     required String email,
     required String password,
   }) {
-    return _instance
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((cred) async {
-      await cred.user!.updateDisplayName(username);
-      return cred;
-    });
+    return _instance.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   Future<UserCredential> signInWithEmailAndPassword(
