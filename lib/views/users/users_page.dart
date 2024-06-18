@@ -28,14 +28,37 @@ class UsersPage extends StatelessWidget {
 
           final users = snapshot.data!.docs;
           return ListView.separated(
+              padding: const EdgeInsets.all(12),
               itemBuilder: (context, index) {
                 final user = users[index].data();
-                return ListTile(
-                  title: Text(user['name']),
-                  subtitle: Text(user['email']),
+                return Container(
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: user['photoURL'] != null
+                          ? Image.network(user['photoURL'])
+                          : const Icon(Icons.person),
+                    ),
+                    title: Text(user['name']),
+                    subtitle:
+                        Text("@${user['email'].toString().split("@")[0]}"),
+                    subtitleTextStyle: TextStyle(color: Colors.grey.shade500),
+                  ),
                 );
               },
-              separatorBuilder: (context, index) => const Divider(),
+              separatorBuilder: (context, index) => const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Divider(
+                      indent: 12,
+                      endIndent: 12,
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
               itemCount: users.length);
         },
       ),
