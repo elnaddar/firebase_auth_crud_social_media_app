@@ -7,6 +7,7 @@ import 'package:firebase_auth_crud_social_media_app/repository/users_repository.
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -82,6 +83,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     const Text(
                       "Try to open the app from a mobile or web browser to send the verification email.",
                     ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.go("/logout");
+                    },
+                    child: const Text("Signout"),
+                  )
                 ],
               ),
             ),
