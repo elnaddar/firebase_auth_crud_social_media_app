@@ -114,6 +114,7 @@ class _RegisterFormState extends State<RegisterForm> {
       final auth = context.read<FirebaseAuthService>();
       auth
           .createUserWithEmailAndPassword(
+        username: data['username'],
         email: data['email'],
         password: data['password'],
       )
