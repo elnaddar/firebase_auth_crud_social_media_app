@@ -30,9 +30,8 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: utils.themeManager.lightMode,
       darkTheme: utils.themeManager.darkMode,
-      routeInformationParser: utils.routesManager.routeInformationParser,
-      routerDelegate: utils.routesManager.routerDelegate,
       themeMode: ThemeMode.system,
+      routerConfig: utils.routesManager.router, // Use GoRouter instance here
     );
   }
 }
