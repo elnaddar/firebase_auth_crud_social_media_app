@@ -3,7 +3,7 @@ import 'package:firebase_auth_crud_social_media_app/components/form_button.dart'
 import 'package:firebase_auth_crud_social_media_app/components/input_form_field.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/form_validators.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/show_loading_indicator.dart';
-import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
+import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_map/form_map.dart';
@@ -111,10 +111,10 @@ class _RegisterFormState extends State<RegisterForm> {
   void _submitRegister() {
     formMap.submit((data) {
       showLoadingIndicator(context);
-      final auth = context.read<AuthService>();
+      final auth = context.read<UsersRepository>();
       auth
-          .createUserWithEmailAndPassword(
-        username: data['username'],
+          .createUserWithNameEmailPassword(
+        name: data['username'],
         email: data['email'],
         password: data['password'],
       )

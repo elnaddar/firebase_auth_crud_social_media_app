@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
 import 'package:firebase_auth_crud_social_media_app/services/store_service.dart';
 
@@ -5,12 +6,12 @@ class UsersRepository {
   final storeService = FireStoreService();
   final authService = AuthService();
 
-  createUserWithNameEmailPassword({
+  Future<UserCredential> createUserWithNameEmailPassword({
     required String name,
     required String email,
     required String password,
   }) {
-    authService
+    return authService
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((cred) async {
       await cred.user!.updateDisplayName(name);
@@ -24,4 +25,15 @@ class UsersRepository {
       return cred;
     });
   }
+
+  Future<UserCredential> signInWithEmailAndPassword(
+          {required String email, required String password}) =>
+      authService.signInWithEmailAndPassword(email: email, password: password);
+
+  Stream<User?> stateChanges() => authService.stateChanges();
+
+  Future<void> signOut() => authService.signOut();
+
+  User? get currentUser => authService.currentUser;
+  bool get isVerified => currentUser?.emailVerified ?? false;
 }

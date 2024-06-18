@@ -8,7 +8,11 @@ class FireStoreService {
     String? path,
     required Map<String, dynamic> data,
     SetOptions? options,
-  }) {
-    _instance.collection(collectionPath).doc(path).set(data, options);
+  }) async {
+    await _instance.collection(collectionPath).doc(path).set(data, options);
+  }
+
+  CollectionReference<Map<String, dynamic>> getCollection(collectionPath) {
+    return _instance.collection(collectionPath);
   }
 }

@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_crud_social_media_app/auth/auth_cubit.dart';
+import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,8 +33,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   void startEmailVerificationCheck() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       final authCubit = context.read<AuthCubit>();
-      final authService = context.read<AuthService>();
-      User? user = authService.currentUser;
+      final usersRepo = context.read<UsersRepository>();
+      User? user = usersRepo.currentUser;
       await user?.reload();
       if (user?.emailVerified ?? false) {
         timer.cancel();
@@ -67,7 +67,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     ElevatedButton(
                       onPressed: () {
                         context
-                            .read<AuthService>()
+                            .read<UsersRepository>()
                             .currentUser!
                             .sendEmailVerification();
                         ScaffoldMessenger.of(context).showSnackBar(

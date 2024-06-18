@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_crud_social_media_app/services/auth_service.dart';
+import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +9,7 @@ class LogoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoryProvider.of<AuthService>(context)
+    RepositoryProvider.of<UsersRepository>(context)
         .signOut()
         .onError((FirebaseAuthException error, stackTrace) {
       if (context.mounted) {
