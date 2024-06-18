@@ -22,6 +22,7 @@ class UsersRepository {
           .createDocument(collectionPath: "Users", path: cred.user!.uid, data: {
         'name': name,
         'email': email,
+        'role': 'user',
       });
       return cred;
     });
