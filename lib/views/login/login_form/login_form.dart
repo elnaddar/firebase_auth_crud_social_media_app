@@ -95,11 +95,11 @@ class _LoginFormState extends State<LoginForm> {
       )
           .then((value) {
         if (mounted) {
-          Navigator.pop(context);
+          context.pop();
         }
       }).onError((FirebaseAuthException error, stackTrace) {
         if (mounted) {
-          Navigator.pop(context);
+          context.pop();
           showAdaptiveDialog(
             context: context,
             builder: (context) => AlertDialog.adaptive(
