@@ -1,4 +1,5 @@
 import 'package:firebase_auth_crud_social_media_app/components/app_drawer.dart';
+import 'package:firebase_auth_crud_social_media_app/components/user_tile.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,17 +38,7 @@ class UsersPage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: user['photoURL'] != null
-                          ? Image.network(user['photoURL'])
-                          : const Icon(Icons.person),
-                    ),
-                    title: Text(user['name']),
-                    subtitle:
-                        Text("@${user['email'].toString().split("@")[0]}"),
-                    subtitleTextStyle: TextStyle(color: Colors.grey.shade500),
-                  ),
+                  child: UserTile(user: user),
                 );
               },
               separatorBuilder: (context, index) => const Padding(
