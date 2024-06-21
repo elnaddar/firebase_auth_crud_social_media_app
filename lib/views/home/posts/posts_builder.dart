@@ -44,43 +44,52 @@ class PostBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UserCubit(),
-      child: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final postId = items[index].id;
-            final data = items[index].data();
-            final userRef = data['user'] as DocumentReference;
-            final userId = userRef.id;
+      child: SliverList.separated(
+        itemCount: items.length,
+        separatorBuilder: (context, index) {
+          return const Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Divider(
+              indent: 12,
+              endIndent: 12,
+              thickness: 1,
+              color: Colors.grey,
+            ),
+          );
+        },
+        itemBuilder: (context, index) {
+          final postId = items[index].id;
+          final data = items[index].data();
+          final userRef = data['user'] as DocumentReference;
+          final userId = userRef.id;
 
-            return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
-              builder: (context, userCache) {
-                if (userCache.containsKey(userId)) {
-                  return PostView(
-                      postId: postId, userData: userCache[userId]!, data: data);
-                } else {
-                  return FutureBuilder<DocumentSnapshot>(
-                    future: userRef.get(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const PostShimmer();
-                      }
-                      if (snapshot.hasError || !snapshot.hasData) {
-                        return const Center(
-                            child: Text("Error loading user data."));
-                      }
-                      final userData =
-                          snapshot.data!.data() as Map<String, dynamic>;
-                      context.read<UserCubit>().cacheUserData(userId, userData);
-                      return PostView(
-                          postId: postId, userData: userData, data: data);
-                    },
-                  );
-                }
-              },
-            );
-          },
-          childCount: items.length,
-        ),
+          return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
+            builder: (context, userCache) {
+              if (userCache.containsKey(userId)) {
+                return PostView(
+                    postId: postId, userData: userCache[userId]!, data: data);
+              } else {
+                return FutureBuilder<DocumentSnapshot>(
+                  future: userRef.get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const PostShimmer();
+                    }
+                    if (snapshot.hasError || !snapshot.hasData) {
+                      return const Center(
+                          child: Text("Error loading user data."));
+                    }
+                    final userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    context.read<UserCubit>().cacheUserData(userId, userData);
+                    return PostView(
+                        postId: postId, userData: userData, data: data);
+                  },
+                );
+              }
+            },
+          );
+        },
       ),
     );
   }
