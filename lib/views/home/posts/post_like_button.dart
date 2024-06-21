@@ -1,3 +1,4 @@
+import 'package:firebase_auth_crud_social_media_app/components/app_shimmer.dart';
 import 'package:firebase_auth_crud_social_media_app/cubits/like_cubit/like_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ class PostLikeButton extends StatelessWidget {
         },
         child: BlocBuilder<LikeCubit, LikeState>(
           builder: (context, state) {
+            if (state is LikeInitial) {
+              return const AppShimmer(child: LikedButton(onPressed: null));
+            }
             if (state is LikeLoading) {
               return const LoadingButton();
             }
@@ -65,7 +69,7 @@ class LoadingButton extends StatelessWidget {
 }
 
 class LikedButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const LikedButton({super.key, required this.onPressed});
 

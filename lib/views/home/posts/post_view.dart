@@ -1,9 +1,9 @@
+import 'package:firebase_auth_crud_social_media_app/components/app_shimmer.dart';
 import 'package:firebase_auth_crud_social_media_app/components/user_tile.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/format_timestamp.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/post_like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:shimmer/shimmer.dart';
 
 class PostView extends StatelessWidget {
   const PostView({
@@ -74,21 +74,19 @@ class PostShimmer extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
       ),
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
+      child: const AppShimmer(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const UserTileShimmer(),
-            const Divider(
+            UserTileShimmer(),
+            Divider(
               indent: 18,
               endIndent: 18,
               thickness: 1,
               color: Color.fromARGB(23, 158, 158, 158),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(18.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,22 +118,13 @@ class PostShimmer extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: EdgeInsets.all(18.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton.icon(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                        side: const BorderSide(color: Colors.black54)),
-                    icon: const Icon(
-                      Icons.favorite_border,
-                      size: 18,
-                    ),
-                    label: const Text("Love"),
-                  ),
-                  const SizedBox(
+                  LikedButton(onPressed: null),
+                  SizedBox(
                     height: 16,
                     width: 100,
                     child: ColoredBox(color: Colors.black),
