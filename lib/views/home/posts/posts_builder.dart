@@ -61,6 +61,7 @@ class PostBuilder extends StatelessWidget {
         );
       },
       itemBuilder: (context, index) {
+        final postId = items[index].id;
         final data = items[index].data();
         DocumentReference userRef = data['user'];
 
@@ -71,7 +72,7 @@ class PostBuilder extends StatelessWidget {
                 return const PostShimmer();
               }
               final userData = snapshot.data!.data() as Map<String, dynamic>;
-              return PostView(userData: userData, data: data);
+              return PostView(postId: postId, userData: userData, data: data);
             });
       },
       itemCount: items.length,

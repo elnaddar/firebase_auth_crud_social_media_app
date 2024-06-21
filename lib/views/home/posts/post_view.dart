@@ -1,16 +1,21 @@
 import 'package:firebase_auth_crud_social_media_app/components/user_tile.dart';
+import 'package:firebase_auth_crud_social_media_app/cubit/like_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/format_timestamp.dart';
+import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
+import 'package:firebase_auth_crud_social_media_app/views/home/posts/post_like_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PostView extends StatelessWidget {
   const PostView({
     super.key,
+    required this.postId,
     required this.userData,
     required this.data,
   });
-
+  final String postId;
   final Map<String, dynamic> userData;
   final Map<String, dynamic> data;
 
@@ -44,15 +49,13 @@ class PostView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton.icon(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      side: const BorderSide(color: Colors.black54)),
-                  icon: const Icon(
-                    Icons.favorite_border,
-                    size: 18,
-                  ),
-                  label: const Text("Love"),
+                BlocProvider(
+                  create: (context) {
+                    final postsRepo = context.read<PostsRepository>();
+                    return LikeCubit(
+                        postsRepository: postsRepo, postId: postId);
+                  },
+                  child: const PostLikeButton(),
                 ),
                 Text(formatTimestamp(data['timestamp'])),
               ],
