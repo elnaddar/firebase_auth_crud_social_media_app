@@ -1,4 +1,5 @@
 import 'package:firebase_auth_crud_social_media_app/components/app_drawer.dart';
+import 'package:firebase_auth_crud_social_media_app/views/home/posts/write_post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,6 +19,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.logout))
         ],
       ),
+      body: const WritePostWidget(),
     );
   }
 }
