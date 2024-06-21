@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostsBuilder extends StatelessWidget {
-  const PostsBuilder({
-    super.key,
-  });
+  const PostsBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +17,7 @@ class PostsBuilder extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return const SliverToBoxAdapter(
-            child: Center(
-              child: Text("Something went wrong try again."),
-            ),
+            child: Center(child: Text("Something went wrong try again.")),
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,48 +44,43 @@ class PostBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => UserCubit(),
-      child: SliverList.separated(
-        separatorBuilder: (context, index) {
-          return const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Divider(
-              indent: 12,
-              endIndent: 12,
-              thickness: 1,
-              color: Colors.grey,
-            ),
-          );
-        },
-        itemBuilder: (context, index) {
-          final postId = items[index].id;
-          final data = items[index].data();
-          DocumentReference userRef = data['user'];
-          final userId = userRef.id;
+      child: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            final postId = items[index].id;
+            final data = items[index].data();
+            final userRef = data['user'] as DocumentReference;
+            final userId = userRef.id;
 
-          return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
-            builder: (context, userCache) {
-              if (userCache.containsKey(userId)) {
-                return PostView(
-                    postId: postId, userData: userCache[userId]!, data: data);
-              } else {
-                return FutureBuilder(
-                  future: userRef.get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const PostShimmer();
-                    }
-                    final userData =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    context.read<UserCubit>().cacheUserData(userId, userData);
-                    return PostView(
-                        postId: postId, userData: userData, data: data);
-                  },
-                );
-              }
-            },
-          );
-        },
-        itemCount: items.length,
+            return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
+              builder: (context, userCache) {
+                if (userCache.containsKey(userId)) {
+                  return PostView(
+                      postId: postId, userData: userCache[userId]!, data: data);
+                } else {
+                  return FutureBuilder<DocumentSnapshot>(
+                    future: userRef.get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const PostShimmer();
+                      }
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return const Center(
+                            child: Text("Error loading user data."));
+                      }
+                      final userData =
+                          snapshot.data!.data() as Map<String, dynamic>;
+                      context.read<UserCubit>().cacheUserData(userId, userData);
+                      return PostView(
+                          postId: postId, userData: userData, data: data);
+                    },
+                  );
+                }
+              },
+            );
+          },
+          childCount: items.length,
+        ),
       ),
     );
   }
