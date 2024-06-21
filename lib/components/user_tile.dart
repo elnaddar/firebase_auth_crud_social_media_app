@@ -18,3 +18,24 @@ class UserTile extends StatelessWidget {
     );
   }
 }
+
+class UserTileShimmer extends StatelessWidget {
+  const UserTileShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const ListTile(
+      leading: CircleAvatar(),
+      title: SizedBox(
+        height: 16,
+        width: 100,
+        child: ColoredBox(color: Colors.black),
+      ),
+      subtitle: SizedBox(
+        height: 12,
+        width: 50,
+        child: ColoredBox(color: Colors.black),
+      ),
+    );
+  }
+}
