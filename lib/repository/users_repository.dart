@@ -53,4 +53,6 @@ class UsersRepository {
   User? get currentUser => authService.currentUser;
   bool get isVerified => currentUser?.emailVerified ?? false;
   bool get canUseTheApp => currentUser != null && isVerified;
+  DocumentReference get userRef =>
+      storeService.getCollection("Users").doc(currentUser!.uid);
 }
