@@ -32,18 +32,28 @@ class PostsRepository {
     final docRef = getPost(postId);
     // Get the document snapshot
     DocumentSnapshot docSnapshot = await docRef.get();
-    List<dynamic> currentList = docSnapshot['likes'];
+
+    // Check if the 'likes' field exists and initialize if not
+    List<dynamic> currentList;
+    if (docSnapshot.exists &&
+        (docSnapshot.data() as Map).containsKey('likes')) {
+      currentList = docSnapshot['likes'];
+    } else {
+      currentList = [];
+    }
+
     final uid = usersRepo.currentUser!.uid;
     if (currentList.contains(uid)) {
       // Remove the value if it exists
       return await docRef.update({
         'likes': FieldValue.arrayRemove([uid])
       });
+    } else {
+      // Add the value if it doesn't exist
+      return await docRef.update({
+        'likes': FieldValue.arrayUnion([uid])
+      });
     }
-    // Add the value if it doesn't exist
-    return await docRef.update({
-      'likes': FieldValue.arrayUnion([uid])
-    });
   }
 
   Future<bool> isPostLikedByUser(String postId) async {
