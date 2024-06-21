@@ -27,4 +27,22 @@ class PostsRepository {
   DocumentReference<Map<String, dynamic>> getPost(String id) {
     return getPosts().doc(id);
   }
+
+  Future<void> toggleLike(String postId) async {
+    final docRef = getPost(postId);
+    // Get the document snapshot
+    DocumentSnapshot docSnapshot = await docRef.get();
+    List<dynamic> currentList = docSnapshot['likes'];
+    final uid = usersRepo.currentUser!.uid;
+    if (currentList.contains(uid)) {
+      // Remove the value if it exists
+      return await docRef.update({
+        'likes': FieldValue.arrayRemove([uid])
+      });
+    }
+    // Add the value if it doesn't exist
+    return await docRef.update({
+      'likes': FieldValue.arrayUnion([uid])
+    });
+  }
 }
