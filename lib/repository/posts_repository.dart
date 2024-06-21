@@ -58,7 +58,12 @@ class PostsRepository {
 
   Future<bool> isPostLikedByUser(String postId) async {
     final docSnapshot = await getPost(postId).get();
-    final List<dynamic> likes = docSnapshot['likes'];
+    List<dynamic> likes;
+    if ((docSnapshot.data() as Map).containsKey('likes')) {
+      likes = docSnapshot['likes'];
+    } else {
+      likes = [];
+    }
     final uid = usersRepo.currentUser!.uid;
     return likes.contains(uid);
   }

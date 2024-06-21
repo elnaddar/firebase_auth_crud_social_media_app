@@ -1,10 +1,7 @@
 import 'package:firebase_auth_crud_social_media_app/components/user_tile.dart';
-import 'package:firebase_auth_crud_social_media_app/cubit/like_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/format_timestamp.dart';
-import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/post_like_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -49,13 +46,9 @@ class PostView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BlocProvider(
-                  create: (context) {
-                    final postsRepo = context.read<PostsRepository>();
-                    return LikeCubit(
-                        postsRepository: postsRepo, postId: postId);
-                  },
-                  child: const PostLikeButton(),
+                PostLikeButton(
+                  key: ValueKey(postId),
+                  postId: postId,
                 ),
                 Text(formatTimestamp(data['timestamp'])),
               ],

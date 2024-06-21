@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth_crud_social_media_app/cubits/user_cubit/user_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/post_view.dart';
 import 'package:flutter/material.dart';
@@ -39,43 +40,57 @@ class PostsBuilder extends StatelessWidget {
 }
 
 class PostBuilder extends StatelessWidget {
-  const PostBuilder({
-    super.key,
-    required this.items,
-  });
-
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> items;
+
+  const PostBuilder({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.separated(
-      separatorBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.all(4.0),
-          child: Divider(
-            indent: 12,
-            endIndent: 12,
-            thickness: 1,
-            color: Colors.grey,
-          ),
-        );
-      },
-      itemBuilder: (context, index) {
-        final postId = items[index].id;
-        final data = items[index].data();
-        DocumentReference userRef = data['user'];
+    return BlocProvider(
+      create: (_) => UserCubit(),
+      child: SliverList.separated(
+        separatorBuilder: (context, index) {
+          return const Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Divider(
+              indent: 12,
+              endIndent: 12,
+              thickness: 1,
+              color: Colors.grey,
+            ),
+          );
+        },
+        itemBuilder: (context, index) {
+          final postId = items[index].id;
+          final data = items[index].data();
+          DocumentReference userRef = data['user'];
+          final userId = userRef.id;
 
-        return FutureBuilder(
-            future: userRef.get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const PostShimmer();
+          return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
+            builder: (context, userCache) {
+              if (userCache.containsKey(userId)) {
+                return PostView(
+                    postId: postId, userData: userCache[userId]!, data: data);
+              } else {
+                return FutureBuilder(
+                  future: userRef.get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const PostShimmer();
+                    }
+                    final userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    context.read<UserCubit>().cacheUserData(userId, userData);
+                    return PostView(
+                        postId: postId, userData: userData, data: data);
+                  },
+                );
               }
-              final userData = snapshot.data!.data() as Map<String, dynamic>;
-              return PostView(postId: postId, userData: userData, data: data);
-            });
-      },
-      itemCount: items.length,
+            },
+          );
+        },
+        itemCount: items.length,
+      ),
     );
   }
 }
