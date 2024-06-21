@@ -45,4 +45,11 @@ class PostsRepository {
       'likes': FieldValue.arrayUnion([uid])
     });
   }
+
+  Future<bool> isPostLikedByUser(String postId) async {
+    final docSnapshot = await getPost(postId).get();
+    final List<dynamic> likes = docSnapshot['likes'];
+    final uid = usersRepo.currentUser!.uid;
+    return likes.contains(uid);
+  }
 }
