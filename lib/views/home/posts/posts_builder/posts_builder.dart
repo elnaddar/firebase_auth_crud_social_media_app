@@ -1,4 +1,5 @@
 import 'package:firebase_auth_crud_social_media_app/cubits/posts_cubit/posts_cubit.dart';
+import 'package:firebase_auth_crud_social_media_app/cubits/user_cubit/user_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/posts_builder/posts_list_builder.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,15 @@ class PostsBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repo = RepositoryProvider.of<PostsRepository>(context);
-    return BlocProvider(
-      create: (context) => PostsCubit(repo),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => PostsCubit(repo),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(),
+        ),
+      ],
       child: BlocBuilder<PostsCubit, PostsState>(
         buildWhen: (previous, current) {
           final bothIsSuc = previous is PostsSuccess && current is PostsSuccess;

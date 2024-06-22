@@ -49,7 +49,6 @@ class PostView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 PostLikeButton(
-                  key: ValueKey(postId),
                   postId: postId,
                 ),
                 Text(formatTimestamp(data.timestamp)),
