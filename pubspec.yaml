@@ -1,7 +1,7 @@
 name: firebase_auth_crud_social_media_app
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.2.1
+version: 1.2.2
 
 environment:
   sdk: '>=3.3.4 <4.0.0'

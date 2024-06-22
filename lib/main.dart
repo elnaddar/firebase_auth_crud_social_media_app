@@ -36,6 +36,7 @@ class MainApp extends StatelessWidget {
     final UtilsManager utils = UtilsManager(authCubit: authCubit);
 
     return MaterialApp.router(
+      title: "Mahdy's Social",
       debugShowCheckedModeBanner: false,
       theme: utils.themeManager.lightMode,
       darkTheme: utils.themeManager.darkMode,
