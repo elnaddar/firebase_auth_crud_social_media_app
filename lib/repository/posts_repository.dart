@@ -16,7 +16,8 @@ class PostsRepository {
       'content': content,
       'imageURL': imageURL,
       'timestamp': Timestamp.now(),
-      'user': usersRepo.userRef
+      'user': usersRepo.userRef,
+      'likes': []
     });
   }
 
