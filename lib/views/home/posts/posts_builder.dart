@@ -67,46 +67,43 @@ class PostBuilder extends StatelessWidget {
   }
 
   Widget? _separatorBuilder(context, index) {
-        return const Padding(
-          padding: EdgeInsets.all(4.0),
-          child: Divider(
-            indent: 12,
-            endIndent: 12,
-            thickness: 1,
-            color: Colors.grey,
-          ),
-        );
-      }
+    return const Padding(
+      padding: EdgeInsets.all(4.0),
+      child: Divider(
+        indent: 12,
+        endIndent: 12,
+        thickness: 1,
+        color: Colors.grey,
+      ),
+    );
+  }
 
   Widget? _itemBuilder(context, index) {
-        final data = items[index].data();
-        final userRef = data.user;
-        final userId = userRef.id;
-        return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
-          builder: (context, userCache) {
-            if (userCache.containsKey(userId)) {
-              return PostView(
-                  postId: data.id, userData: userCache[userId]!, data: data);
-            } else {
-              return FutureBuilder<DocumentSnapshot>(
-                future: userRef.get(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const PostShimmer();
-                  }
-                  if (snapshot.hasError || !snapshot.hasData) {
-                    return const Center(
-                        child: Text("Error loading user data."));
-                  }
-                  final userData =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  context.read<UserCubit>().cacheUserData(userId, userData);
-                  return PostView(
-                      postId: data.id, userData: userData, data: data);
-                },
-              );
-            }
-          },
-        );
-      }
+    final data = items[index].data();
+    final userRef = data.user;
+    final userId = userRef.id;
+    return BlocBuilder<UserCubit, Map<String, Map<String, dynamic>>>(
+      builder: (context, userCache) {
+        if (userCache.containsKey(userId)) {
+          return PostView(
+              postId: data.id, userData: userCache[userId]!, data: data);
+        } else {
+          return FutureBuilder<DocumentSnapshot>(
+            future: userRef.get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const PostShimmer();
+              }
+              if (snapshot.hasError || !snapshot.hasData) {
+                return const Center(child: Text("Error loading user data."));
+              }
+              final userData = snapshot.data!.data() as Map<String, dynamic>;
+              context.read<UserCubit>().cacheUserData(userId, userData);
+              return PostView(postId: data.id, userData: userData, data: data);
+            },
+          );
+        }
+      },
+    );
+  }
 }
