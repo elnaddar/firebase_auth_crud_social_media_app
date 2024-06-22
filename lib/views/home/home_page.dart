@@ -5,7 +5,6 @@ import 'package:firebase_auth_crud_social_media_app/views/home/posts/posts_build
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/write_post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,13 +19,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         drawer: const AppDrawer(),
         appBar: AppBar(
-          title: const Text("Home"),
-          actions: [
-            IconButton(
-                tooltip: "Logout",
-                onPressed: () => context.go("/logout"),
-                icon: const Icon(Icons.logout))
-          ],
+          title: const Text("Wall"),
         ),
         body: const CustomScrollView(slivers: [
           SliverToBoxAdapter(child: WritePostWidget()),
