@@ -55,7 +55,7 @@ class Post {
       imageURL: map['imageURL'] != null ? map['imageURL'] as String : null,
       timestamp: map['timestamp'],
       user: map['user'],
-      likes: List.from((map['likes'] as List)),
+      likes: (map['likes'] as List?) ?? [],
     );
   }
 

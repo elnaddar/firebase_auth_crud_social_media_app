@@ -1,6 +1,7 @@
 import 'package:firebase_auth_crud_social_media_app/components/app_shimmer.dart';
 import 'package:firebase_auth_crud_social_media_app/components/user_tile.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/format_timestamp.dart';
+import 'package:firebase_auth_crud_social_media_app/models/post.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/post_like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -14,7 +15,7 @@ class PostView extends StatelessWidget {
   });
   final String postId;
   final Map<String, dynamic> userData;
-  final Map<String, dynamic> data;
+  final Post data;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class PostView extends StatelessWidget {
             color: Color.fromARGB(23, 158, 158, 158),
           ),
           Markdown(
-            data: data['content'],
+            data: data.content,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
           ),
@@ -51,7 +52,7 @@ class PostView extends StatelessWidget {
                   key: ValueKey(postId),
                   postId: postId,
                 ),
-                Text(formatTimestamp(data['timestamp'])),
+                Text(formatTimestamp(data.timestamp)),
               ],
             ),
           )
