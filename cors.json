@@ -1,0 +1,12 @@
+/* ran this command gsutil cors set cors.json gs://bucket-name */
+[
+  {
+    "origin": [
+      "*"
+    ],
+    "method": [
+      "GET"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]
