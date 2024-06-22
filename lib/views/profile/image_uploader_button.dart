@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth_crud_social_media_app/cubits/user_cubit/user_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/show_loading_indicator.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
 import 'package:firebase_auth_crud_social_media_app/services/image_uploader.dart';
@@ -43,10 +44,15 @@ class _ImageUploaderButtonState extends State<ImageUploaderButton> {
       if (mounted && photoURL != null) {
         await context.read<UsersRepository>().updateUserImage(photoURL);
       }
+      if (mounted && photoURL != null) {
+        final userCubit = UserCubit();
+        final user = context.read<UsersRepository>();
+        final userRef = await user.userRef.get();
+        final userData = userRef.data() as Map<String, dynamic>;
+        userCubit.cacheUserData(user.currentUser!.uid, userData);
+      }
       if (mounted) {
-        context.read<UsersRepository>().currentUser;
         context.pop();
-        // context.go("/profile");
       }
     }
   }
