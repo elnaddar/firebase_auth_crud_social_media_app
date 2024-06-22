@@ -28,12 +28,11 @@ class PostsRepository {
     return getPosts().doc(id);
   }
 
-  Future<void> toggleLike(String postId) async {
+  Future<List> getLikes(String postId) async {
     final docRef = getPost(postId);
     // Get the document snapshot
     DocumentSnapshot docSnapshot = await docRef.get();
 
-    // Check if the 'likes' field exists and initialize if not
     List<dynamic> currentList;
     if (docSnapshot.exists &&
         (docSnapshot.data() as Map).containsKey('likes')) {
@@ -41,7 +40,12 @@ class PostsRepository {
     } else {
       currentList = [];
     }
+    return currentList;
+  }
 
+  Future<void> toggleLike(String postId) async {
+    final docRef = getPost(postId);
+    final currentList = await getLikes(postId);
     final uid = usersRepo.currentUser!.uid;
     if (currentList.contains(uid)) {
       // Remove the value if it exists
@@ -57,13 +61,7 @@ class PostsRepository {
   }
 
   Future<bool> isPostLikedByUser(String postId) async {
-    final docSnapshot = await getPost(postId).get();
-    List<dynamic> likes;
-    if ((docSnapshot.data() as Map).containsKey('likes')) {
-      likes = docSnapshot['likes'];
-    } else {
-      likes = [];
-    }
+    final likes = await getLikes(postId);
     final uid = usersRepo.currentUser!.uid;
     return likes.contains(uid);
   }
