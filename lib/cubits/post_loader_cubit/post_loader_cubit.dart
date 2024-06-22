@@ -27,6 +27,7 @@ class PostLoaderCubit extends Cubit<PostLoaderState>
 
   late final StreamSubscription _likeSubscription;
   late final StreamSubscription _userSubscription;
+  bool _isSubscriptionActive = true;
 
   void _init() {
     _handleUserCache(userCubit.state);
@@ -69,16 +70,23 @@ class PostLoaderCubit extends Cubit<PostLoaderState>
   void _checkAndEmitPostLoaderState() {
     if (likeSucc && userSucc) {
       emit(PostLoaderSuccess());
+      _closSubsctiptions();
     } else {
       emit(PostLoaderLoading());
     }
   }
 
+  _closSubsctiptions() {
+    if (_isSubscriptionActive) {
+      _likeSubscription.cancel();
+      _userSubscription.cancel();
+      _isSubscriptionActive = false;
+    }
+  }
+
   @override
   Future<void> close() {
-    _likeSubscription.cancel();
-    _userSubscription.cancel();
-
+    _closSubsctiptions();
     likeCubit.close();
     return super.close();
   }

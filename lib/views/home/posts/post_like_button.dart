@@ -18,6 +18,9 @@ class PostLikeButton extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        if (state is LikeInitial || state is LikeLoading) {
+          return const LoadingButton();
+        }
         if (state is LikeSuccess) {
           return LikeButton(
             isLiked: state.isLiked,
