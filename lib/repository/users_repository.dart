@@ -38,6 +38,11 @@ class UsersRepository {
     };
   }
 
+  Future<void> updateUserImage(String photoURL) async {
+    userRef.update({'photoURL': photoURL});
+    currentUser!.updatePhotoURL(photoURL);
+  }
+
   Stream<QuerySnapshot<Map<String, dynamic>>> getUsersSnapshots() {
     return storeService.getCollection("Users").snapshots();
   }
