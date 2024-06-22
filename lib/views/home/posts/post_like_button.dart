@@ -1,4 +1,3 @@
-import 'package:firebase_auth_crud_social_media_app/components/app_shimmer.dart';
 import 'package:firebase_auth_crud_social_media_app/cubits/like_cubit/like_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +26,18 @@ class PostLikeButton extends StatelessWidget {
         child: BlocBuilder<LikeCubit, LikeState>(
           builder: (context, state) {
             if (state is LikeInitial) {
-              return const AppShimmer(child: LikedButton(onPressed: null));
+              return const LoadingButton();
             }
             if (state is LikeLoading) {
               return const LoadingButton();
             }
-            if (state is LikeSuccess && state.isLiked) {
-              return LikedButton(
-                  onPressed: () => context.read<LikeCubit>().toggleLike());
+            if (state is LikeSuccess) {
+              return LikeButton(
+                isLiked: state.isLiked,
+                count: state.count,
+              );
             }
-            return UnlikedButton(
-                onPressed: () => context.read<LikeCubit>().toggleLike());
+            return const LikeButton(isLiked: false, count: 0);
           },
         ),
       ),
@@ -68,50 +68,39 @@ class LoadingButton extends StatelessWidget {
   }
 }
 
-class LikedButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-
-  const LikedButton({super.key, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      child: TextButton.icon(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          side: const BorderSide(color: Colors.pink),
-          foregroundColor: Colors.pink,
-        ),
-        icon: const Icon(
-          Icons.favorite,
-          size: 18,
-        ),
-        label: const Text("Love"),
-      ),
-    );
-  }
-}
-
-class UnlikedButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const UnlikedButton({super.key, required this.onPressed});
+class LikeButton extends StatelessWidget {
+  final bool isLiked;
+  final int count;
+  const LikeButton({
+    super.key,
+    required this.isLiked,
+    required this.count,
+  });
 
   @override
   Widget build(BuildContext context) {
+    late final ButtonStyle style;
+    late final IconData icon;
+    final String label = count == 0 ? "Love" : count.toString();
+    if (isLiked) {
+      icon = Icons.favorite;
+      style = TextButton.styleFrom(
+        side: const BorderSide(color: Colors.pink),
+        foregroundColor: Colors.pink,
+      );
+    } else {
+      icon = Icons.favorite_border;
+      style = TextButton.styleFrom(
+        side: const BorderSide(color: Colors.black54),
+      );
+    }
     return SizedBox(
       width: 100,
       child: TextButton.icon(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          side: const BorderSide(color: Colors.black54),
-        ),
-        icon: const Icon(
-          Icons.favorite_border,
-          size: 18,
-        ),
-        label: const Text("Love"),
+        onPressed: () => context.read<LikeCubit>().toggleLike(),
+        style: style,
+        icon: Icon(icon, size: 18),
+        label: Text(label),
       ),
     );
   }

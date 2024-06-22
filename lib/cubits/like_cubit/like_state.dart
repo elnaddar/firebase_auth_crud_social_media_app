@@ -11,7 +11,8 @@ class LikeLoading extends LikeState {}
 
 class LikeSuccess extends LikeState {
   final bool isLiked;
-  const LikeSuccess(this.isLiked);
+  final int count;
+  const LikeSuccess(this.isLiked, this.count);
 }
 
 class LikeFailure extends LikeState {

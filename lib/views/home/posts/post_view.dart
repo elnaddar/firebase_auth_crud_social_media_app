@@ -124,7 +124,7 @@ class PostShimmer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  LikedButton(onPressed: null),
+                  LikeButton(isLiked: false, count: 0),
                   SizedBox(
                     height: 16,
                     width: 100,

@@ -7,6 +7,7 @@ part 'like_state.dart';
 class LikeCubit extends HydratedCubit<LikeState> {
   final PostsRepository postsRepository;
   final String postId;
+  late List likes;
 
   LikeCubit({required this.postsRepository, required this.postId})
       : super(LikeInitial()) {
@@ -15,8 +16,9 @@ class LikeCubit extends HydratedCubit<LikeState> {
 
   Future<void> _initializeLikeStatus() async {
     try {
-      final isLiked = await postsRepository.isPostLikedByUser(postId);
-      if (!isClosed) emit(LikeSuccess(isLiked));
+      likes = await postsRepository.getLikes(postId);
+      final isLiked = postsRepository.isPostLikedByUser(postId, likes: likes);
+      if (!isClosed) emit(LikeSuccess(isLiked, likes.length));
     } catch (e) {
       if (!isClosed) emit(LikeFailure(e.toString()));
     }
@@ -25,7 +27,7 @@ class LikeCubit extends HydratedCubit<LikeState> {
   Future<void> toggleLike() async {
     emit(LikeLoading());
     try {
-      await postsRepository.toggleLike(postId);
+      await postsRepository.toggleLike(postId, currentList: likes);
       if (!isClosed) _initializeLikeStatus();
     } catch (e) {
       if (!isClosed) emit(LikeFailure(e.toString()));
@@ -36,7 +38,8 @@ class LikeCubit extends HydratedCubit<LikeState> {
   LikeState? fromJson(Map<String, dynamic> json) {
     try {
       final bool isLiked = json['isLiked'] as bool;
-      return LikeSuccess(isLiked);
+      final int likesCount = json['likesCount'] as int;
+      return LikeSuccess(isLiked, likesCount);
     } catch (e) {
       return LikeInitial();
     }
@@ -45,7 +48,7 @@ class LikeCubit extends HydratedCubit<LikeState> {
   @override
   Map<String, dynamic>? toJson(LikeState state) {
     if (state is LikeSuccess) {
-      return {'isLiked': state.isLiked};
+      return {'isLiked': state.isLiked, 'likesCount': state.count};
     }
     return null;
   }
