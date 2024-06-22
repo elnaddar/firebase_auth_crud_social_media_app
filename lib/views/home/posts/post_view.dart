@@ -39,6 +39,7 @@ class PostView extends StatelessWidget {
           Markdown(
             data: data['content'],
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
           ),
           Padding(
             padding: const EdgeInsets.all(18.0),
