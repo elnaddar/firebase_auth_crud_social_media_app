@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:firebase_auth_crud_social_media_app/cubits/user_cubit/user_cubit.dart';
 import 'package:firebase_auth_crud_social_media_app/helpers/show_loading_indicator.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
@@ -53,7 +52,7 @@ class _ImageUploaderButtonState extends State<ImageUploaderButton> {
   }
 
   _pick() async {
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       showModalBottomSheet(
           context: context,
           shape: const ContinuousRectangleBorder(),
