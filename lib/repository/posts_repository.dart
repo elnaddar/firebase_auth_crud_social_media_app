@@ -43,9 +43,8 @@ class PostsRepository {
     return currentList;
   }
 
-  Future<void> toggleLike(String postId) async {
+  Future<void> toggleLike(String postId, {required List currentList}) async {
     final docRef = getPost(postId);
-    final currentList = await getLikes(postId);
     final uid = usersRepo.currentUser!.uid;
     if (currentList.contains(uid)) {
       // Remove the value if it exists
@@ -60,8 +59,7 @@ class PostsRepository {
     }
   }
 
-  Future<bool> isPostLikedByUser(String postId) async {
-    final likes = await getLikes(postId);
+  bool isPostLikedByUser(String postId, {required List likes}) {
     final uid = usersRepo.currentUser!.uid;
     return likes.contains(uid);
   }
