@@ -1,3 +1,4 @@
+import 'package:firebase_auth_crud_social_media_app/components/app_cache_net_image.dart';
 import 'package:flutter/material.dart';
 
 class UserTile extends StatelessWidget {
@@ -7,10 +8,13 @@ class UserTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        child: user['photoURL'] != null
-            ? Image.network(user['photoURL'])
-            : const Icon(Icons.person),
+      leading: ClipOval(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: CircleAvatar(
+          child: user['photoURL'] != null
+              ? AppCacheNetImage(imageUrl: user['photoURL'])
+              : const Icon(Icons.person),
+        ),
       ),
       title: Text(user['name']),
       subtitle: Text("@${user['email'].toString().split("@")[0]}"),
