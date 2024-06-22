@@ -33,11 +33,6 @@ class AppDrawer extends StatelessWidget {
           selectedIcon: Icon(Icons.group),
           label: Text("Users"),
         ),
-        NavigationDrawerDestination(
-          icon: Icon(Icons.image_outlined),
-          selectedIcon: Icon(Icons.image),
-          label: Text("Upload"),
-        ),
         Divider(
           indent: 26,
           endIndent: 26,
@@ -59,8 +54,6 @@ class AppDrawer extends StatelessWidget {
         context.push("/profile");
       case 2:
         context.go("/users");
-      case 3:
-        context.go("/image_uploader");
       case 4:
         context.go("/logout");
     }
