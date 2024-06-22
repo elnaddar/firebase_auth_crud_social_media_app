@@ -1,7 +1,7 @@
 import 'package:firebase_auth_crud_social_media_app/components/app_drawer.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/posts_repository.dart';
 import 'package:firebase_auth_crud_social_media_app/repository/users_repository.dart';
-import 'package:firebase_auth_crud_social_media_app/views/home/posts/posts_builder.dart';
+import 'package:firebase_auth_crud_social_media_app/views/home/posts/posts_builder/posts_builder.dart';
 import 'package:firebase_auth_crud_social_media_app/views/home/posts/write_post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
