@@ -54,7 +54,7 @@ class AppDrawer extends StatelessWidget {
         context.push("/profile");
       case 2:
         context.push("/users");
-      case 4:
+      case 3:
         context.go("/logout");
     }
   }
