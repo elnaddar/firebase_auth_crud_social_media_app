@@ -56986,7 +56986,7 @@ case 1:A.aUL(a,"/profile",t.X)
 break
 case 2:A.aUL(a,"/users",t.X)
 break
-case 4:A.iw(a).oe(0,"/logout",null)
+case 3:A.iw(a).oe(0,"/logout",null)
 break}}}
 A.abS.prototype={
 $1(a){return this.a.aoe(this.b,a)},
